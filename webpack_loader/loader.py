@@ -25,10 +25,11 @@ class WebpackLoader(object):
             with open(self.config['STATS_FILE']) as f:
                 return json.load(f)
         except IOError:
-            raise IOError(
-                'Error reading {0}. Are you sure webpack has generated '
-                'the file and the path is correct?'.format(
-                    self.config['STATS_FILE']))
+            if not self.config['IGNORE_MISSING_STATS']:
+                raise IOError(
+                    'Error reading {0}. Are you sure webpack has generated '
+                    'the file and the path is correct?'.format(
+                        self.config['STATS_FILE']))
 
     def get_assets(self):
         if self.config['CACHE']:
